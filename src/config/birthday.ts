@@ -1,7 +1,7 @@
 export const birthdayConfig = {
   name: "Name",
 
-  birthday: "05-09",
+  birthday: "07-10",
 
   intro: {
     eyebrow: "A little world made for you",
@@ -47,7 +47,7 @@ export const birthdayConfig = {
   ),
 
   finalMessage: {
-    eyebrow: "05 · 09",
+    eyebrow: "07 · 10",
     title: "Happy Birthday",
     name: "Name",
     subtitle:

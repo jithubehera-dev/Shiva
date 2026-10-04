@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { birthdayConfig } from "./config/birthday";
+import { birthdayConfig } from "./birthday";
 
 type PasswordScreenProps = {
   onSuccess?: () => void;

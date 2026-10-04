@@ -1,0 +1,3523 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap");
+
+:root {
+  font-family: "DM Mono", monospace;
+  color: #f5eee8;
+  background: #090708;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  --bg: #090708;
+  --bg-soft: #120d10;
+  --text: #f5eee8;
+  --muted: #9c9194;
+  --pink: #e889aa;
+  --pink-soft: #f1aac2;
+  --line: rgba(245, 238, 232, 0.14);
+  --line-strong: rgba(245, 238, 232, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(120, 20, 55, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      rgba(80, 15, 45, 0.1),
+      transparent 35%
+    ),
+    #090708;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 1px solid var(--pink);
+  outline-offset: 4px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+.birthday-app {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(105, 15, 48, 0.12),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(88, 12, 42, 0.1),
+      transparent 35%
+    ),
+    #090708;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background-glow {
+  position: fixed;
+  width: 55vw;
+  height: 55vw;
+  max-width: 800px;
+  max-height: 800px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  opacity: 0.12;
+  z-index: 0;
+}
+
+.glow-one {
+  top: -20%;
+  left: -20%;
+  background: #6e123d;
+}
+
+.glow-two {
+  right: -20%;
+  bottom: -20%;
+  background: #40102b;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.025;
+  background:
+    radial-gradient(
+      rgba(255, 255, 255, 0.15) 1px,
+      transparent 1px
+    );
+  background-size: 5px 5px;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  padding: 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  border-bottom: 1px solid rgba(245, 238, 232, 0.08);
+  background: rgba(9, 7, 8, 0.72);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.brand {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 5px;
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.brand span {
+  color: var(--pink);
+  margin-left: 5px;
+}
+
+.brand:hover {
+  color: var(--pink-soft);
+}
+
+.top-date {
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: rgba(245, 238, 232, 0.55);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.sound-toggle {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.sound-toggle:hover {
+  color: var(--pink-soft);
+  border-color: var(--line-strong);
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress {
+  position: fixed;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(245, 238, 232, 0.25);
+  transition: all 0.3s ease;
+}
+
+.progress span.active {
+  width: 5px;
+  height: 26px;
+  border-radius: 4px;
+  background: var(--pink);
+  box-shadow: 0 0 12px rgba(232, 137, 170, 0.55);
+}
+
+
+/* =========================================================
+   GENERIC PAGE
+========================================================= */
+
+.page {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  width: 100%;
+  padding: 120px 8vw 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.eyebrow {
+  display: block;
+  color: var(--pink);
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+.hero-page {
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-decoration {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  color: rgba(245, 238, 232, 0.35);
+  font-size: 9px;
+  letter-spacing: 5px;
+}
+
+.hero-decoration i {
+  width: 35px;
+  height: 1px;
+  background: rgba(232, 137, 170, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  width: min(800px, 100%);
+}
+
+.hero-content .eyebrow {
+  margin-bottom: 28px;
+}
+
+.hero-content h1 {
+  margin-bottom: 30px;
+  font-size: clamp(55px, 8vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -3px;
+}
+
+.hero-content h1 em {
+  color: var(--pink);
+  font-weight: 400;
+}
+
+.hero-line {
+  width: 70px;
+  height: 1px;
+  margin: 0 auto 30px;
+  background: var(--pink);
+}
+
+.hero-subtitle {
+  margin-bottom: 38px;
+  color: rgba(245, 238, 232, 0.62);
+  font-size: 12px;
+  line-height: 1.9;
+  letter-spacing: 1px;
+}
+
+.hero-note {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  text-align: center;
+}
+
+.hero-note span {
+  color: rgba(245, 238, 232, 0.35);
+  font-size: 8px;
+  letter-spacing: 4px;
+}
+
+.hero-note strong {
+  color: var(--pink);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.primary-button,
+.outline-button,
+.restart-button {
+  border: 0;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding: 16px 22px;
+  background: rgba(232, 137, 170, 0.12);
+  border: 1px solid rgba(232, 137, 170, 0.45);
+  color: var(--text);
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+.primary-button b {
+  color: var(--pink);
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.primary-button:hover {
+  transform: translateY(-3px);
+  background: rgba(232, 137, 170, 0.2);
+  border-color: var(--pink);
+}
+
+.outline-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 14px 24px;
+  background: transparent;
+  border: 1px solid rgba(245, 238, 232, 0.25);
+  color: rgba(245, 238, 232, 0.8);
+  font-size: 8px;
+  letter-spacing: 3px;
+}
+
+.outline-button span {
+  color: var(--pink);
+  font-size: 16px;
+}
+
+.outline-button:hover {
+  transform: translateY(-3px);
+  border-color: var(--pink);
+  color: var(--text);
+}
+
+
+/* =========================================================
+   LETTER
+========================================================= */
+
+.letter-page {
+  gap: 35px;
+  padding-top: 140px;
+}
+
+.section-number {
+  position: absolute;
+  top: 120px;
+  left: 8vw;
+  color: rgba(245, 238, 232, 0.28);
+  font-size: 10px;
+  letter-spacing: 4px;
+}
+
+.paper-card {
+  position: relative;
+  width: min(720px, 92%);
+  padding: 0;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(245, 238, 232, 0.06),
+      rgba(245, 238, 232, 0.025)
+    );
+  border: 1px solid rgba(245, 238, 232, 0.13);
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.paper-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 25px;
+  border-bottom: 1px solid rgba(245, 238, 232, 0.1);
+  color: rgba(245, 238, 232, 0.42);
+  font-size: 8px;
+  letter-spacing: 3px;
+}
+
+.paper-content {
+  padding: 55px 65px 60px;
+}
+
+.letter-small {
+  color: var(--pink);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+.paper-content h2 {
+  margin-bottom: 40px;
+  font-size: clamp(35px, 5vw, 62px);
+  line-height: 0.95;
+  letter-spacing: -1px;
+}
+
+.paper-content h2 em {
+  color: var(--pink);
+}
+
+.letter-body {
+  max-width: 570px;
+}
+
+.letter-body p {
+  color: rgba(245, 238, 232, 0.68);
+  font-size: 12px;
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
+.signature {
+  margin-top: 45px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: rgba(245, 238, 232, 0.7);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 18px;
+}
+
+.signature strong {
+  color: var(--pink);
+}
+
+.paper-stamp {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(232, 137, 170, 0.35);
+  border-radius: 50%;
+  color: var(--pink);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   MEMORIES
+========================================================= */
+
+.memories-page {
+  justify-content: flex-start;
+  padding-top: 145px;
+  padding-bottom: 120px;
+}
+
+.memories-heading {
+  width: min(1150px, 90%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 55px;
+}
+
+.memories-heading h2 {
+  margin: 15px 0 0;
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 0.9;
+}
+
+.memories-heading h2 em {
+  color: var(--pink);
+}
+
+.memories-heading > p {
+  margin: 0;
+  color: rgba(245, 238, 232, 0.4);
+  font-size: 9px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-align: right;
+}
+
+
+/* =========================================================
+   PHOTO GRID
+========================================================= */
+
+.photo-grid {
+  width: min(1150px, 90%);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px;
+  align-items: start;
+}
+
+.photo-card {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+}
+
+.photo-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid rgba(245, 238, 232, 0.18);
+  background: #120d10;
+}
+
+.photo-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
+}
+
+.photo-card:hover .photo-inner img {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+}
+
+.photo-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 2px;
+  color: rgba(245, 238, 232, 0.45);
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+.photo-caption span {
+  color: var(--pink);
+}
+
+.photo-caption small {
+  font-size: 7px;
+  white-space: nowrap;
+}
+
+.memory-next {
+  margin-top: 60px;
+}
+
+
+/* =========================================================
+   FINAL PAGE
+========================================================= */
+
+.final-page {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.final-content {
+  position: relative;
+  z-index: 20;
+  width: min(850px, 94%);
+}
+
+.final-content .eyebrow {
+  margin-bottom: 20px;
+}
+
+.final-pretitle {
+  margin-bottom: 24px;
+  color: rgba(245, 238, 232, 0.42);
+  font-size: 9px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+.final-content h1 {
+  margin: 0 0 10px;
+  font-size: clamp(70px, 10vw, 140px);
+  line-height: 0.78;
+  letter-spacing: -5px;
+}
+
+.final-content h1 em {
+  color: var(--pink);
+}
+
+.final-divider {
+  width: 44px;
+  height: 1px;
+  margin: 30px auto;
+  background: var(--pink);
+}
+
+.final-message {
+  max-width: 520px;
+  margin: 0 auto 30px;
+  color: rgba(245, 238, 232, 0.55);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.final-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 45px;
+  color: rgba(245, 238, 232, 0.3);
+  font-size: 7px;
+  letter-spacing: 4px;
+}
+
+
+/* =========================================================
+   FINAL ORBITS
+========================================================= */
+
+.final-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(245, 238, 232, 0.09);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.orbit-one {
+  width: 580px;
+  height: 580px;
+}
+
+.orbit-two {
+  width: 390px;
+  height: 390px;
+}
+
+
+/* =========================================================
+   CAKE
+========================================================= */
+
+.birthday-cake {
+  position: relative;
+  width: 210px;
+  height: 175px;
+  margin: 0 auto 30px;
+  z-index: 50;
+  display: block;
+  animation: cakeFloat 3s ease-in-out infinite;
+  filter:
+    drop-shadow(
+      0 15px 25px rgba(232, 137, 170, 0.28)
+    );
+}
+
+.cake-plate {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 210px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    #f2a8c1,
+    #9d4165
+  );
+  box-shadow:
+    0 5px 20px rgba(232, 137, 170, 0.3);
+}
+
+.cake-body {
+  position: absolute;
+  left: 50%;
+  bottom: 15px;
+  width: 155px;
+  height: 75px;
+  transform: translateX(-50%);
+  border-radius: 10px 10px 16px 16px;
+  background: linear-gradient(
+    135deg,
+    #f0a8c2,
+    #b74772
+  );
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    inset 0 10px 20px rgba(255, 255, 255, 0.15),
+    0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.cake-top {
+  position: absolute;
+  left: 50%;
+  bottom: 77px;
+  width: 155px;
+  height: 35px;
+  transform: translateX(-50%);
+  z-index: 5;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse at center,
+      #fff4f8 0%,
+      #f4b8cc 60%,
+      #bd557e 100%
+    );
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cake-cream {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 0 0 50% 50%;
+  background: #fff0f5;
+  box-shadow:
+    0 3px 7px rgba(0, 0, 0, 0.18);
+}
+
+.cream-one {
+  left: 16px;
+  top: -2px;
+}
+
+.cream-two {
+  left: 63px;
+  top: -1px;
+}
+
+.cream-three {
+  right: 16px;
+  top: -2px;
+}
+
+.cake-top span {
+  position: absolute;
+  width: 22px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.cake-top span:nth-child(1) {
+  left: 25px;
+  top: 13px;
+}
+
+.cake-top span:nth-child(2) {
+  left: 67px;
+  top: 16px;
+}
+
+.cake-top span:nth-child(3) {
+  right: 25px;
+  top: 12px;
+}
+
+.cake-candle {
+  position: absolute;
+  left: 50%;
+  bottom: 106px;
+  width: 16px;
+  height: 48px;
+  transform: translateX(-50%);
+  z-index: 20;
+  border-radius: 5px 5px 3px 3px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #fff5f8 0px,
+      #fff5f8 6px,
+      #e889aa 6px,
+      #e889aa 11px
+    );
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.candle-flame {
+  position: absolute;
+  left: 50%;
+  top: -27px;
+  width: 17px;
+  height: 25px;
+  transform:
+    translateX(-50%)
+    rotate(45deg);
+  border-radius: 50% 50% 50% 0;
+  background:
+    linear-gradient(
+      135deg,
+      #fffbd0,
+      #ffb36b,
+      #e889aa
+    );
+  box-shadow:
+    0 0 12px #ffd27d,
+    0 0 30px rgba(232, 137, 170, 0.65);
+  animation:
+    flameFlicker 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes cakeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes flameFlicker {
+  from {
+    transform:
+      translateX(-50%)
+      rotate(42deg)
+      scale(0.9);
+  }
+
+  to {
+    transform:
+      translateX(-50%)
+      rotate(48deg)
+      scale(1.1);
+  }
+}
+
+
+/* =========================================================
+   NAVYA
+========================================================= */
+
+.final-name {
+  position: relative;
+  z-index: 30;
+  margin-top: 35px;
+  color: #f5eee8;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(52px, 11vw, 100px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 8px;
+  text-align: center;
+  text-shadow:
+    0 0 25px rgba(232, 137, 170, 0.22);
+}
+
+.final-name span {
+  display: inline-block;
+  margin-left: 12px;
+  color: var(--pink);
+  font-family: "DM Mono", monospace;
+  font-size: 26px;
+  letter-spacing: 0;
+}
+
+
+/* =========================================================
+   RESTART
+========================================================= */
+
+.restart-button {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid rgba(245, 238, 232, 0.16);
+  border-radius: 30px;
+  color: rgba(245, 238, 232, 0.38);
+  font-size: 7px;
+  letter-spacing: 3px;
+}
+
+.restart-button:hover {
+  color: var(--pink);
+  border-color: rgba(232, 137, 170, 0.5);
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(5, 3, 4, 0.88);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.lightbox-card {
+  position: relative;
+  width: min(850px, 95vw);
+  max-height: 90vh;
+  overflow: hidden;
+  background: #100b0e;
+  border: 1px solid rgba(245, 238, 232, 0.15);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-card img {
+  width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  background: #050505;
+}
+
+.close-lightbox {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 10;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  background: rgba(5, 5, 5, 0.65);
+  color: white;
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 15px 20px;
+}
+
+.lightbox-info span {
+  color: var(--pink);
+  font-size: 8px;
+  letter-spacing: 3px;
+}
+
+.lightbox-info strong {
+  color: rgba(245, 238, 232, 0.7);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    height: 58px;
+    padding: 0 20px;
+  }
+
+  .brand {
+    font-size: 8px;
+    letter-spacing: 4px;
+  }
+
+  .top-date {
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+
+  .progress {
+    right: 12px;
+    gap: 8px;
+  }
+
+  .page {
+    min-height: 100svh;
+    padding: 95px 20px 70px;
+  }
+
+
+  /* HOME */
+
+  .hero-decoration {
+    top: 15%;
+    gap: 14px;
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+
+  .hero-decoration i {
+    width: 22px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(48px, 15vw, 72px);
+    letter-spacing: -2px;
+  }
+
+  .hero-content .eyebrow {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+
+  .hero-subtitle {
+    font-size: 10px;
+  }
+
+  .primary-button {
+    padding: 14px 17px;
+    gap: 18px;
+    font-size: 7px;
+  }
+
+  .hero-note {
+    bottom: 30px;
+  }
+
+  .hero-note span {
+    font-size: 6px;
+  }
+
+  .hero-note strong {
+    font-size: 15px;
+  }
+
+
+  /* LETTER */
+
+  .letter-page {
+    padding-top: 100px;
+  }
+
+  .section-number {
+    top: 85px;
+    left: 20px;
+    font-size: 7px;
+  }
+
+  .paper-card {
+    width: 100%;
+  }
+
+  .paper-top {
+    padding: 14px 17px;
+    font-size: 6px;
+    letter-spacing: 2px;
+  }
+
+  .paper-content {
+    padding: 38px 25px 45px;
+  }
+
+  .letter-small {
+    font-size: 8px;
+  }
+
+  .paper-content h2 {
+    font-size: clamp(33px, 11vw, 52px);
+  }
+
+  .letter-body p {
+    font-size: 10px;
+    line-height: 1.9;
+  }
+
+  .signature {
+    font-size: 15px;
+  }
+
+  .paper-stamp {
+    right: 15px;
+    bottom: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+
+
+  /* MEMORIES */
+
+  .memories-page {
+    padding-top: 100px;
+  }
+
+  .memories-heading {
+    width: 100%;
+    display: block;
+    margin-bottom: 35px;
+  }
+
+  .memories-heading .eyebrow {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+
+  .memories-heading h2 {
+    margin-top: 13px;
+    font-size: clamp(45px, 14vw, 65px);
+  }
+
+  .memories-heading > p {
+    display: none;
+  }
+
+  .photo-grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .photo-card {
+    width: 100%;
+  }
+
+  .photo-inner {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+  }
+
+  .photo-caption {
+    padding: 10px 3px;
+    font-size: 7px;
+  }
+
+  .photo-caption small {
+    font-size: 7px;
+  }
+
+  .memory-next {
+    margin-top: 35px;
+  }
+
+
+  /* FINAL */
+
+  .final-page {
+    padding: 75px 15px 65px;
+  }
+
+  .final-content {
+    width: 100%;
+  }
+
+  .final-orbit.orbit-one {
+    width: 430px;
+    height: 430px;
+  }
+
+  .final-orbit.orbit-two {
+    width: 285px;
+    height: 285px;
+  }
+
+  .birthday-cake {
+    width: 180px;
+    height: 150px;
+    margin-bottom: 20px;
+  }
+
+  .cake-plate {
+    width: 180px;
+    height: 16px;
+  }
+
+  .cake-body {
+    width: 135px;
+    height: 64px;
+    bottom: 13px;
+  }
+
+  .cake-top {
+    width: 135px;
+    height: 30px;
+    bottom: 66px;
+  }
+
+  .cake-candle {
+    bottom: 91px;
+    width: 14px;
+    height: 43px;
+  }
+
+  .cake-top span {
+    width: 19px;
+    height: 8px;
+  }
+
+  .cake-top span:nth-child(1) {
+    left: 20px;
+  }
+
+  .cake-top span:nth-child(2) {
+    left: 58px;
+  }
+
+  .cake-top span:nth-child(3) {
+    right: 20px;
+  }
+
+  .cake-cream {
+    width: 24px;
+    height: 24px;
+  }
+
+  .final-content .eyebrow {
+    font-size: 7px;
+    letter-spacing: 3px;
+  }
+
+  .final-pretitle {
+    font-size: 7px;
+    margin-bottom: 20px;
+  }
+
+  .final-content h1 {
+    font-size: clamp(55px, 18vw, 85px);
+    letter-spacing: -3px;
+  }
+
+  .final-name {
+    font-size: clamp(55px, 18vw, 85px);
+    letter-spacing: 5px;
+    margin-top: 28px;
+  }
+
+  .final-name span {
+    font-size: 19px;
+    margin-left: 7px;
+  }
+
+  .final-divider {
+    margin: 23px auto;
+  }
+
+  .final-message {
+    width: 90%;
+    font-size: 8px;
+  }
+
+  .final-footer {
+    gap: 15px;
+    font-size: 5px;
+    letter-spacing: 2px;
+  }
+
+  .restart-button {
+    bottom: 20px;
+    font-size: 6px;
+    padding: 9px 14px;
+  }
+
+
+  /* LIGHTBOX */
+
+  .lightbox {
+    padding: 15px;
+  }
+
+  .lightbox-card {
+    width: 100%;
+  }
+
+  .lightbox-card img {
+    max-height: 70vh;
+  }
+
+  .lightbox-info {
+    padding: 12px 15px;
+  }
+
+  .lightbox-info strong {
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+  .hero-content h1 {
+    font-size: 45px;
+  }
+
+  .paper-content {
+    padding: 30px 20px 40px;
+  }
+
+  .final-content h1 {
+    font-size: 52px;
+  }
+
+  .final-name {
+    font-size: 50px;
+    letter-spacing: 4px;
+  }
+
+  .birthday-cake {
+    transform: scale(0.9);
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* =========================================================
+   PASSWORD SCREEN
+========================================================= */
+
+.password-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 24px;
+
+  background:
+    radial-gradient(
+      circle at 20% 25%,
+      rgba(105, 15, 48, 0.18),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(88, 12, 42, 0.14),
+      transparent 38%
+    ),
+    #090708;
+
+  color: #f5eee8;
+}
+
+.password-glow {
+  position: absolute;
+  width: 520px;
+  height: 520px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(150, 35, 80, 0.16),
+      transparent 68%
+    );
+
+  filter: blur(35px);
+
+  pointer-events: none;
+}
+
+.password-content {
+  position: relative;
+  z-index: 5;
+
+  width: min(620px, 100%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+.password-eyebrow {
+  display: block;
+
+  margin-bottom: 28px;
+
+  color: #e889aa;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 10px;
+  font-weight: 400;
+
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.password-content h1 {
+  margin: 0;
+
+  color: #f5eee8;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: clamp(52px, 8vw, 88px);
+  font-weight: 400;
+
+  line-height: 0.9;
+
+  letter-spacing: -2px;
+}
+
+.password-content h1 em {
+  color: #e889aa;
+  font-weight: 400;
+}
+
+.password-divider {
+  width: 55px;
+  height: 1px;
+
+  margin: 32px auto;
+
+  background: #e889aa;
+}
+
+.password-content > p {
+  margin: 0 0 38px;
+
+  color: rgba(245, 238, 232, 0.58);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 11px;
+
+  line-height: 1.9;
+}
+
+.password-box {
+  width: min(420px, 100%);
+
+  padding: 24px;
+
+  border: 1px solid rgba(245, 238, 232, 0.13);
+
+  background: rgba(18, 13, 16, 0.65);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.password-box label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: rgba(245, 238, 232, 0.45);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 8px;
+
+  letter-spacing: 3px;
+
+  text-align: left;
+}
+
+.password-input-row {
+  display: flex;
+
+  width: 100%;
+
+  border: 1px solid rgba(245, 238, 232, 0.22);
+
+  background: rgba(0, 0, 0, 0.25);
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.password-input-row:focus-within {
+  border-color: rgba(232, 137, 170, 0.7);
+
+  box-shadow:
+    0 0 25px rgba(232, 137, 170, 0.08);
+}
+
+.password-input-row input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 52px;
+
+  padding: 0 16px;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #f5eee8;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 18px;
+
+  letter-spacing: 7px;
+}
+
+.password-input-row input::placeholder {
+  color: rgba(245, 238, 232, 0.2);
+
+  letter-spacing: 5px;
+}
+
+.password-input-row button {
+  width: 58px;
+
+  border: 0;
+  border-left: 1px solid rgba(245, 238, 232, 0.14);
+
+  background: rgba(232, 137, 170, 0.1);
+
+  color: #e889aa;
+
+  font-size: 22px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.password-input-row button:hover {
+  background: rgba(232, 137, 170, 0.2);
+
+  color: #f5eee8;
+}
+
+.password-error {
+  display: block;
+
+  margin-top: 13px;
+
+  color: #e889aa;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 8px;
+
+  letter-spacing: 1px;
+
+  text-align: left;
+}
+
+.password-footer {
+  display: block;
+
+  margin-top: 28px;
+
+  color: rgba(245, 238, 232, 0.32);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 7px;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PASSWORD MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .password-page {
+    min-height: 100svh;
+
+    padding: 25px 20px;
+  }
+
+  .password-glow {
+    width: 380px;
+    height: 380px;
+  }
+
+  .password-content {
+    width: 100%;
+  }
+
+  .password-eyebrow {
+    margin-bottom: 22px;
+
+    font-size: 7px;
+
+    letter-spacing: 3px;
+  }
+
+  .password-content h1 {
+    font-size: clamp(48px, 15vw, 68px);
+
+    line-height: 0.92;
+
+    letter-spacing: -1.5px;
+  }
+
+  .password-divider {
+    width: 45px;
+
+    margin: 25px auto;
+  }
+
+  .password-content > p {
+    margin-bottom: 30px;
+
+    font-size: 9px;
+
+    line-height: 1.8;
+  }
+
+  .password-box {
+    width: 100%;
+
+    max-width: 360px;
+
+    padding: 20px;
+  }
+
+  .password-box label {
+    font-size: 7px;
+
+    letter-spacing: 2.5px;
+  }
+
+  .password-input-row input {
+    height: 50px;
+
+    font-size: 17px;
+
+    letter-spacing: 6px;
+  }
+
+  .password-input-row button {
+    width: 54px;
+  }
+
+  .password-footer {
+    margin-top: 23px;
+
+    font-size: 6px;
+
+    letter-spacing: 3px;
+  }
+}
+/* =========================================================
+   SCROLLABLE MEMORY STORY
+========================================================= */
+
+.memories-page {
+  min-height: 100svh;
+  height: auto;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+
+  touch-action: pan-y;
+
+  padding-bottom: 100px;
+}
+
+/* Make sure the main app itself does not kill scrolling */
+
+.birthday-app {
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+
+/* MEMORY HEADER */
+
+.memories-heading {
+  width: min(1100px, 90%);
+
+  margin: 0 auto;
+
+  padding-top: 90px;
+  padding-bottom: 55px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+}
+
+.memories-heading h2 {
+  margin: 18px 0 0;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: clamp(48px, 7vw, 82px);
+
+  line-height: 0.9;
+
+  font-weight: 400;
+
+  letter-spacing: -2px;
+
+  color: #f5eee8;
+}
+
+.memories-heading h2 em {
+  color: #e889aa;
+
+  font-weight: 400;
+}
+
+.memories-instruction {
+  margin: 0;
+
+  color: rgba(245, 238, 232, 0.42);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 9px;
+
+  line-height: 1.8;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   MEMORY LIST
+========================================================= */
+
+.photo-list {
+  width: min(900px, 88%);
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 110px;
+}
+
+
+/* ONE MEMORY */
+
+.memory-story {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    220px;
+
+  align-items: center;
+
+  gap: 55px;
+}
+
+
+/* PHOTO */
+
+.memory-photo-button {
+  position: relative;
+
+  width: 100%;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  aspect-ratio: 4 / 5;
+
+  display: block;
+}
+
+.memory-photo-button::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 60%,
+      rgba(0, 0, 0, 0.25)
+    );
+
+  pointer-events: none;
+}
+
+.memory-photo-button img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.7s ease,
+    filter 0.7s ease;
+}
+
+.memory-photo-button:hover img {
+  transform: scale(1.035);
+
+  filter: brightness(1.05);
+}
+
+
+/* MEMORY INFORMATION */
+
+.memory-story-info {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 22px;
+}
+
+.memory-number {
+  color: #e889aa;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  padding-top: 4px;
+}
+
+.memory-label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: rgba(245, 238, 232, 0.35);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 7px;
+
+  letter-spacing: 3px;
+}
+
+.memory-story-info h3 {
+  margin: 0 0 12px;
+
+  color: #f5eee8;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: 28px;
+
+  font-weight: 400;
+
+  line-height: 1.1;
+}
+
+.memory-story-info p {
+  margin: 0;
+
+  color: rgba(245, 238, 232, 0.42);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 8px;
+
+  line-height: 1.8;
+}
+
+
+/* Alternate layout */
+
+.memory-story:nth-child(even) {
+  grid-template-columns:
+    220px
+    minmax(0, 1fr);
+}
+
+.memory-story:nth-child(even)
+  .memory-photo-button {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.memory-story:nth-child(even)
+  .memory-story-info {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+
+/* LAST BUTTON */
+
+.memory-next {
+  display: flex;
+
+  margin: 110px auto 0;
+
+  min-width: 190px;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   MOBILE — ONE PHOTO AT A TIME
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .memories-page {
+    min-height: 100svh;
+
+    height: auto;
+
+    overflow-y: auto;
+
+    padding-bottom: 70px;
+  }
+
+  .memories-heading {
+    width: 88%;
+
+    padding-top: 55px;
+    padding-bottom: 40px;
+
+    display: block;
+  }
+
+  .memories-heading h2 {
+    font-size: clamp(46px, 14vw, 68px);
+
+    letter-spacing: -1.5px;
+
+    line-height: 0.9;
+  }
+
+  .memories-instruction {
+    margin-top: 25px;
+
+    text-align: left;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+  }
+
+
+  /* ONE PHOTO PER ROW */
+
+  .photo-list {
+    width: 88%;
+
+    margin: 0 auto;
+
+    gap: 90px;
+  }
+
+
+  .memory-story,
+  .memory-story:nth-child(even) {
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 20px;
+
+    align-items: stretch;
+  }
+
+
+  .memory-story:nth-child(even)
+    .memory-photo-button,
+  .memory-story:nth-child(even)
+    .memory-story-info {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+
+  /* LARGE MOBILE PHOTO */
+
+  .memory-photo-button {
+    width: 100%;
+
+    aspect-ratio: 4 / 5;
+
+    border: 1px solid
+      rgba(245, 238, 232, 0.12);
+  }
+
+
+  .memory-story-info {
+    display: flex;
+
+    gap: 18px;
+
+    padding: 0 4px;
+  }
+
+
+  .memory-number {
+    font-size: 9px;
+  }
+
+
+  .memory-label {
+    font-size: 6px;
+
+    letter-spacing: 2.5px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .memory-story-info h3 {
+    font-size: 26px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .memory-story-info p {
+    font-size: 7px;
+
+    line-height: 1.7;
+  }
+
+
+  .memory-next {
+    margin-top: 90px;
+
+    margin-bottom: 30px;
+
+    min-height: 48px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+  }
+}
+/* =========================================================
+   FINAL MOBILE SCROLL FIX
+   Paste this at the VERY END of index.css
+========================================================= */
+
+/* Allow the browser itself to scroll */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  position: relative;
+}
+
+/* Main application must NOT trap scrolling */
+.birthday-app {
+  width: 100%;
+  min-height: 100svh;
+  height: auto !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Every page is allowed to grow naturally */
+.page {
+  width: 100%;
+  min-height: 100svh;
+  height: auto !important;
+  overflow: visible !important;
+  position: relative;
+}
+
+/* =========================================================
+   MEMORIES
+========================================================= */
+
+.memories-page {
+  width: 100%;
+  min-height: 100svh;
+
+  height: auto !important;
+
+  overflow: visible !important;
+
+  position: relative;
+
+  padding-bottom: 120px;
+
+  touch-action: auto;
+}
+
+/* Header */
+
+.memories-heading {
+  width: min(900px, 88%);
+  margin: 0 auto;
+
+  padding-top: 80px;
+  padding-bottom: 55px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* Memory list */
+
+.photo-list {
+  width: min(900px, 88%);
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 110px;
+
+  overflow: visible;
+}
+
+/* Each memory */
+
+.memory-story {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    220px;
+
+  align-items: center;
+
+  gap: 55px;
+
+  overflow: visible;
+}
+
+/* Photos */
+
+.memory-photo-button {
+  width: 100%;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  display: block;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  aspect-ratio: 4 / 5;
+
+  touch-action: manipulation;
+}
+
+.memory-photo-button img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease;
+}
+
+/* Alternating desktop layout */
+
+.memory-story:nth-child(even) {
+  grid-template-columns:
+    220px
+    minmax(0, 1fr);
+}
+
+.memory-story:nth-child(even)
+.memory-photo-button {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.memory-story:nth-child(even)
+.memory-story-info {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Bottom button */
+
+.memory-next {
+  display: flex;
+
+  margin: 110px auto 40px;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+}
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  html,
+  body,
+  #root {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    height: auto !important;
+
+    position: relative;
+  }
+
+  .birthday-app {
+    min-height: 100svh;
+
+    height: auto !important;
+
+    overflow: visible !important;
+
+    position: relative;
+  }
+
+  .page {
+    min-height: 100svh;
+
+    height: auto !important;
+
+    overflow: visible !important;
+  }
+
+  .memories-page {
+    min-height: 100svh;
+
+    height: auto !important;
+
+    overflow: visible !important;
+
+    padding-bottom: 80px;
+  }
+
+  /* Header */
+
+  .memories-heading {
+    width: 88%;
+
+    margin: 0 auto;
+
+    padding-top: 60px;
+    padding-bottom: 45px;
+
+    display: block;
+  }
+
+  .memories-heading h2 {
+    margin-top: 15px;
+
+    font-size: clamp(46px, 14vw, 68px);
+
+    line-height: 0.9;
+
+    letter-spacing: -1.5px;
+  }
+
+  .memories-instruction {
+    margin-top: 25px;
+
+    text-align: left;
+
+    font-size: 7px;
+
+    line-height: 1.8;
+
+    letter-spacing: 2px;
+  }
+
+  /* ONE PHOTO PER MEMORY */
+
+  .photo-list {
+    width: 88%;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 90px;
+
+    overflow: visible;
+  }
+
+  .memory-story,
+  .memory-story:nth-child(even) {
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 20px;
+
+    overflow: visible;
+  }
+
+  .memory-story:nth-child(even)
+  .memory-photo-button,
+  .memory-story:nth-child(even)
+  .memory-story-info {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* LARGE PHOTO */
+
+  .memory-photo-button {
+    width: 100%;
+
+    aspect-ratio: 4 / 5;
+
+    border: 1px solid
+      rgba(245, 238, 232, 0.12);
+
+    overflow: hidden;
+
+    touch-action: manipulation;
+  }
+
+  .memory-photo-button img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  /* MESSAGE */
+
+  .memory-story-info {
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    padding: 0 4px;
+  }
+
+  .memory-number {
+    flex-shrink: 0;
+
+    padding-top: 4px;
+
+    font-size: 9px;
+  }
+
+  .memory-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 6px;
+
+    letter-spacing: 2.5px;
+  }
+
+  .memory-story-info h3 {
+    margin: 0 0 8px;
+
+    font-size: 26px;
+
+    line-height: 1.1;
+  }
+
+  .memory-story-info p {
+    margin: 0;
+
+    font-size: 7px;
+
+    line-height: 1.7;
+  }
+
+  /* LAST BUTTON */
+
+  .memory-next {
+    margin: 90px auto 40px;
+
+    min-height: 48px;
+
+    padding: 0 25px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+  }
+}
+/* White frame around every memory photo */
+.memory-photo-button {
+  border: 3px solid #ffffff !important;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.memory-photo-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
+/* =========================================================
+   PURPLE THEME
+========================================================= */
+
+:root {
+  --accent: #b58cff;
+  --accent-bright: #c9a7ff;
+  --accent-soft: rgba(181, 140, 255, 0.18);
+}
+
+/* Replace pink accents */
+.eyebrow,
+.password-eyebrow,
+.memory-label,
+.memory-number,
+.top-date,
+.final-name span,
+.brand span,
+.paper-stamp,
+.hero-note strong {
+  color: var(--accent) !important;
+}
+
+/* Pink headings / italic text */
+h1 em,
+h2 em,
+.memories-heading h2 em {
+  color: var(--accent-bright) !important;
+}
+
+/* Purple lines and borders */
+.hero-line,
+.final-divider {
+  background: var(--accent) !important;
+}
+
+.outline-button:hover,
+.primary-button:hover {
+  border-color: var(--accent) !important;
+}
+
+/* Purple glow */
+.background-glow.glow-one,
+.background-glow.glow-two,
+.password-glow {
+  background: var(--accent-soft) !important;
+}
+
+/* Purple active progress */
+.progress span.active {
+  background: var(--accent) !important;
+}
+
+/* Purple memory accents */
+.memory-number {
+  color: var(--accent) !important;
+}
+
+/* Purple scrollbar */
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+}
+.flower-animation {
+  font-size: 70px;
+  text-align: center;
+  margin: 25px 0 15px;
+  animation: flowerFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(255, 105, 180, 0.45));
+}
+
+@keyframes flowerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(3deg);
+  }
+}
+/* =========================================================
+   FINAL PAGE — CINEMATIC NAVYA BIRTHDAY
+   SAFE OVERRIDE
+   Add this at the VERY END of index.css
+========================================================= */
+
+.final-page {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(181, 140, 255, 0.10),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(130, 35, 80, 0.10),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(100, 55, 150, 0.08),
+      transparent 28%
+    ),
+    #090708;
+}
+
+/* subtle atmosphere */
+
+.final-page::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      transparent 0,
+      rgba(181, 140, 255, 0.035) 35%,
+      transparent 65%
+    );
+
+  animation: finalAtmosphere 8s ease-in-out infinite alternate;
+}
+
+@keyframes finalAtmosphere {
+  from {
+    transform: scale(0.96);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   ORBITS
+========================================================= */
+
+.final-orbit {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid rgba(245, 238, 232, 0.07);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.final-orbit.orbit-one {
+  width: min(720px, 90vw);
+  height: min(720px, 90vw);
+}
+
+.final-orbit.orbit-two {
+  width: min(470px, 62vw);
+  height: min(470px, 62vw);
+
+  border-color: rgba(181, 140, 255, 0.08);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.final-content {
+  position: relative;
+  z-index: 20;
+
+  width: min(900px, 92%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* small top label */
+
+.final-content .eyebrow {
+  margin-bottom: 18px;
+
+  color: #b58cff !important;
+
+  font-size: 8px;
+  letter-spacing: 5px;
+
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   CAKE
+========================================================= */
+
+.birthday-cake {
+  width: 165px;
+  height: 138px;
+
+  margin: 0 auto 24px;
+
+  transform: scale(0.9);
+
+  filter:
+    drop-shadow(
+      0 15px 35px rgba(232, 137, 170, 0.20)
+    );
+
+  animation: finalCakeFloat 4s ease-in-out infinite;
+}
+
+@keyframes finalCakeFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(0.9);
+  }
+
+  50% {
+    transform: translateY(-7px) scale(0.9);
+  }
+}
+
+
+/* =========================================================
+   SMALL DATE / PRETITLE
+========================================================= */
+
+.final-pretitle {
+  margin: 0 0 24px;
+
+  color: rgba(245, 238, 232, 0.40);
+
+  font-size: 8px;
+  line-height: 1.8;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   HAPPY BIRTHDAY
+========================================================= */
+
+.final-content h1 {
+  position: relative;
+
+  margin: 0;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: clamp(62px, 11vw, 135px);
+
+  font-weight: 400;
+
+  line-height: 0.78;
+
+  letter-spacing: -6px;
+
+  color: #f5eee8;
+
+  text-shadow:
+    0 0 40px rgba(245, 238, 232, 0.04);
+}
+
+.final-content h1 em {
+  display: block;
+
+  margin-left: 15px;
+
+  color: #b58cff !important;
+
+  font-weight: 400;
+
+  text-shadow:
+    0 0 35px rgba(181, 140, 255, 0.20);
+}
+
+
+/* =========================================================
+   NAVYA
+========================================================= */
+
+.final-name {
+  position: relative;
+  z-index: 30;
+
+  margin: 42px 0 0;
+
+  font-family: "Playfair Display", Georgia, serif;
+
+  font-size: clamp(58px, 10vw, 112px);
+
+  font-weight: 400;
+
+  line-height: 0.95;
+
+  letter-spacing: 14px;
+
+  color: #f5eee8;
+
+  text-shadow:
+    0 0 35px rgba(245, 238, 232, 0.05);
+}
+
+.final-name span {
+  display: inline-block;
+
+  margin-left: 12px;
+
+  color: #b58cff !important;
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 22px;
+
+  letter-spacing: 0;
+
+  transform: translateY(-4px);
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.final-divider {
+  width: 70px;
+  height: 1px;
+
+  margin: 28px auto;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #b58cff,
+    transparent
+  ) !important;
+
+  box-shadow:
+    0 0 12px rgba(181, 140, 255, 0.35);
+}
+
+
+/* =========================================================
+   FLOWER
+========================================================= */
+
+.flower-animation {
+  position: relative;
+  z-index: 25;
+
+  margin: 8px 0 18px;
+
+  font-size: 52px;
+
+  line-height: 1;
+
+  filter:
+    drop-shadow(
+      0 0 18px rgba(181, 140, 255, 0.25)
+    );
+
+  animation: elegantFlower 4s ease-in-out infinite;
+}
+
+@keyframes elegantFlower {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-6px) rotate(2deg);
+  }
+}
+
+
+/* =========================================================
+   FINAL MESSAGE
+========================================================= */
+
+.final-message {
+  width: min(520px, 90%);
+
+  margin: 0 auto 28px;
+
+  color: rgba(245, 238, 232, 0.52);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 9px;
+
+  line-height: 2;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.final-footer {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 30px;
+
+  color: rgba(245, 238, 232, 0.28);
+
+  font-family: "DM Mono", monospace;
+
+  font-size: 6px;
+
+  letter-spacing: 4px;
+}
+
+
+/* =========================================================
+   RESTART BUTTON
+========================================================= */
+
+.restart-button {
+  position: absolute;
+
+  left: 50%;
+  bottom: 28px;
+
+  transform: translateX(-50%);
+
+  z-index: 50;
+
+  padding: 10px 22px;
+
+  border: 1px solid rgba(181, 140, 255, 0.25);
+
+  border-radius: 999px;
+
+  background: rgba(181, 140, 255, 0.025);
+
+  color: rgba(245, 238, 232, 0.32);
+
+  font-size: 6px;
+
+  letter-spacing: 4px;
+
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.restart-button:hover {
+  color: #b58cff;
+
+  border-color: rgba(181, 140, 255, 0.60);
+
+  box-shadow:
+    0 0 25px rgba(181, 140, 255, 0.10);
+
+  transform:
+    translateX(-50%)
+    translateY(-2px);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .final-page {
+    min-height: 100svh;
+
+    padding:
+      70px
+      18px
+      65px;
+  }
+
+  .final-content {
+    width: 100%;
+  }
+
+  .final-content .eyebrow {
+    margin-bottom: 14px;
+
+    font-size: 6px;
+
+    letter-spacing: 3px;
+  }
+
+  .final-pretitle {
+    margin-bottom: 20px;
+
+    font-size: 6px;
+
+    letter-spacing: 3px;
+  }
+
+  /* smaller cake */
+
+  .birthday-cake {
+    width: 145px;
+    height: 122px;
+
+    margin-bottom: 18px;
+
+    transform: scale(0.82);
+  }
+
+  @keyframes finalCakeFloat {
+    0%,
+    100% {
+      transform: translateY(0) scale(0.82);
+    }
+
+    50% {
+      transform: translateY(-6px) scale(0.82);
+    }
+  }
+
+  /* title */
+
+  .final-content h1 {
+    font-size: clamp(54px, 17vw, 82px);
+
+    line-height: 0.80;
+
+    letter-spacing: -3px;
+  }
+
+  .final-content h1 em {
+    margin-left: 5px;
+  }
+
+  /* name */
+
+  .final-name {
+    margin-top: 30px;
+
+    font-size: clamp(48px, 16vw, 76px);
+
+    letter-spacing: 7px;
+  }
+
+  .final-name span {
+    margin-left: 7px;
+
+    font-size: 16px;
+  }
+
+  .final-divider {
+    width: 55px;
+
+    margin: 23px auto;
+  }
+
+  .flower-animation {
+    margin: 4px 0 14px;
+
+    font-size: 44px;
+  }
+
+  .final-message {
+    width: 88%;
+
+    margin-bottom: 24px;
+
+    font-size: 7px;
+
+    line-height: 1.9;
+  }
+
+  .final-footer {
+    gap: 16px;
+
+    font-size: 5px;
+
+    letter-spacing: 2.5px;
+  }
+
+  .final-orbit.orbit-one {
+    width: 430px;
+    height: 430px;
+  }
+
+  .final-orbit.orbit-two {
+    width: 285px;
+    height: 285px;
+  }
+
+  .restart-button {
+    bottom: 18px;
+
+    padding: 9px 18px;
+
+    font-size: 5px;
+
+    letter-spacing: 3px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .final-page {
+    padding-top: 62px;
+  }
+
+  .birthday-cake {
+    margin-bottom: 10px;
+  }
+
+  .final-content h1 {
+    font-size: 52px;
+  }
+
+  .final-name {
+    font-size: 46px;
+
+    letter-spacing: 5px;
+  }
+
+  .flower-animation {
+    font-size: 40px;
+  }
+
+  .final-message {
+    font-size: 6px;
+  }
+}
+/* =========================================================
+   JAPANESE FLYING PETALS
+========================================================= */
+
+.petals {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+
+  background: rgba(236, 190, 255, 0.78);
+
+  border-radius: 80% 20% 80% 20%;
+
+  box-shadow:
+    0 0 8px rgba(181, 140, 255, 0.22);
+
+  opacity: 0;
+
+  animation:
+    petalFloat linear infinite;
+}
+
+/* LEFT SIDE */
+
+.petal-1 {
+  left: 10%;
+  top: 34%;
+
+  animation-duration: 9s;
+  animation-delay: 1s;
+}
+
+.petal-2 {
+  left: 18%;
+  top: 58%;
+
+  width: 6px;
+  height: 10px;
+
+  animation-duration: 11s;
+  animation-delay: 4s;
+}
+
+.petal-3 {
+  left: 5%;
+  top: 72%;
+
+  width: 7px;
+  height: 11px;
+
+  animation-duration: 10s;
+  animation-delay: 2s;
+}
+
+.petal-4 {
+  left: 27%;
+  top: 24%;
+
+  width: 5px;
+  height: 9px;
+
+  animation-duration: 12s;
+  animation-delay: 6s;
+}
+
+/* RIGHT SIDE */
+
+.petal-5 {
+  right: 11%;
+  top: 31%;
+
+  width: 7px;
+  height: 11px;
+
+  animation-duration: 10s;
+  animation-delay: 3s;
+}
+
+.petal-6 {
+  right: 18%;
+  top: 52%;
+
+  width: 6px;
+  height: 10px;
+
+  animation-duration: 12s;
+  animation-delay: 1s;
+}
+
+.petal-7 {
+  right: 6%;
+  top: 67%;
+
+  width: 8px;
+  height: 12px;
+
+  animation-duration: 9s;
+  animation-delay: 5s;
+}
+
+.petal-8 {
+  right: 28%;
+  top: 23%;
+
+  width: 5px;
+  height: 9px;
+
+  animation-duration: 13s;
+  animation-delay: 7s;
+}
+
+
+/* =========================================================
+   PETAL MOTION
+========================================================= */
+
+@keyframes petalFloat {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate3d(0, -30px, 0)
+      rotate(0deg)
+      scale(0.75);
+  }
+
+  12% {
+    opacity: 0.75;
+  }
+
+  35% {
+    transform:
+      translate3d(22px, 90px, 0)
+      rotate(80deg)
+      scale(1);
+  }
+
+  60% {
+    transform:
+      translate3d(-18px, 190px, 0)
+      rotate(170deg)
+      scale(0.9);
+  }
+
+  82% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate3d(35px, 330px, 0)
+      rotate(270deg)
+      scale(0.7);
+  }
+}
+
+
+/* =========================================================
+   MOBILE PETALS
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .petal {
+    width: 6px;
+    height: 9px;
+
+    box-shadow:
+      0 0 6px rgba(181, 140, 255, 0.18);
+  }
+
+  .petal-1 {
+    left: 8%;
+  }
+
+  .petal-2 {
+    left: 16%;
+  }
+
+  .petal-3 {
+    left: 4%;
+  }
+
+  .petal-4 {
+    left: 24%;
+  }
+
+  .petal-5 {
+    right: 8%;
+  }
+
+  .petal-6 {
+    right: 16%;
+  }
+
+  .petal-7 {
+    right: 4%;
+  }
+
+  .petal-8 {
+    right: 24%;
+  }
+}
+
+/* =========================================================
+   FINAL PAGE — MOBILE PERFORMANCE
+========================================================= */
+
+.final-page {
+  isolation: isolate;
+}
+
+.final-content {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.final-orbit {
+  will-change: transform;
+}
+
+.petals {
+  contain: layout paint;
+}
+
+.petal {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+@media (max-width: 700px) {
+  .final-page {
+    contain: layout paint;
+  }
+
+  .petal {
+    animation-duration: 12s;
+  }
+
+  .final-orbit {
+    will-change: auto;
+  }
+}

@@ -208,7 +208,7 @@ const currentPhoto =
           onClick={() => goTo("home")}
           aria-label="Go home"
         >
-          Name <span>♥</span>
+          kothi <span>♥</span>
         </button>
 
         <div className="topbar-right">
@@ -483,7 +483,7 @@ const currentPhoto =
                   duration: 0.8,
                 }}
               >
-                MADE ESPECIALLY FOR Name
+                MADE ESPECIALLY FOR {birthdayConfig.name}
                 <span>♥</span>
               </motion.div>
             </div>

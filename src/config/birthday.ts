@@ -29,10 +29,10 @@ export const birthdayConfig = {
   },
 
   loveList: [
-    "Your eyes. I could get lost in them.",
-    "The way I can't stop staring at you every time I see you.",
-    "Just being with you feels like enough.",
-    "Simply... you ♥",
+    "You’re the greatest gift I’ve ever gotten.",
+    "I’ll hold you in my heart, until i can hold you in my arms.",
+    "If I know what love is, it is because of you.",
+    "Home is wherever I’m with you ... Simply... you ♥",
   ],
 
   memories: Array.from(

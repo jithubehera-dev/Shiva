@@ -225,7 +225,7 @@ const currentPhoto =
           </button>
 
           <div className="top-date">
-            05 · 09
+            07 · 10
           </div>
         </div>
       </header>
@@ -502,7 +502,7 @@ const currentPhoto =
                 duration: 0.8,
               }}
             >
-              05 · 09
+              07 · 10
             </motion.div>
           </motion.section>
         )}
@@ -543,7 +543,7 @@ const currentPhoto =
                 </span>
 
                 <span>
-                  05 · 09
+                  07 · 10
                 </span>
               </div>
 
@@ -579,7 +579,7 @@ const currentPhoto =
               </div>
 
               <div className="paper-stamp">
-                N
+                AKSK
               </div>
             </div>
 
@@ -1163,7 +1163,7 @@ const currentPhoto =
                 }}
               >
                 <span>
-                  05 · 09
+                  07 · 10
                 </span>
 
                 <span>

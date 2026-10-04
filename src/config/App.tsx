@@ -1145,7 +1145,7 @@ const currentPhoto =
                   duration: 0.7,
                 }}
               >
-                MISS YOU <span>♥</span>
+                potti ga  <span>♥</span>
               </motion.p>
 
               {/* FOOTER */}

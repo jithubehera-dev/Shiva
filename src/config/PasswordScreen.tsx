@@ -13,7 +13,7 @@ export default function PasswordScreen({
   const [error, setError] = useState("");
 
   const handleSubmit = () => {
-    if (password === "0509") {
+    if (password === "0710") {
       setError("");
 
       if (onSuccess) {

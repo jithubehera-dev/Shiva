@@ -1,5 +1,5 @@
 export const birthdayConfig = {
-  name: "Name",
+  name: "name",
 
   birthday: "07-10",
 

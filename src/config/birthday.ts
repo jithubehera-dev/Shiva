@@ -49,7 +49,7 @@ export const birthdayConfig = {
   finalMessage: {
     eyebrow: "07 · 10",
     title: "Happy Birthday",
-    name: "Name",
+    name: "Akshitha",
     subtitle:
       "May this year give you more moments worth remembering.",
   },

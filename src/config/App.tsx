@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { birthdayConfig } from "./config/birthday";
+import { birthdayConfig } from "./birthday";
 
 type SafePhotoProps = {
   src: string;

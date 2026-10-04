@@ -101,7 +101,7 @@ export default function PasswordScreen({
         </div>
 
         <span className="password-footer">
-          MADE ESPECIALLY FOR Akshitha ♥
+          MADE ESPECIALLY FOR {birthdayConfig.name} ♥
         </span>
       </motion.div>
     </main>
